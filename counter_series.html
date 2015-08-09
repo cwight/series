@@ -1,0 +1,100 @@
+
+<html>
+<body>
+
+<div id="poll">
+<h1>What is the best fantasy series?</h1>
+<form name ="input" action="poll_result.php" method="GET">
+Lord of the Rings
+<input type="radio" name="vote" value="0">
+<br>Harry Potter
+<input type="radio" name="vote" value="1">
+<br>Game of Thrones
+<input type="radio" name="vote" value="2">
+<br>Wheel of Time
+<input type="radio" name="vote" value="3">
+<br>
+<input type="submit" value="Submit">
+</form>
+</div>
+
+</body>
+</html>
+
+
+
+
+<?php
+$title = "What is the best fantasy series?";
+include('header.php');
+
+$vote = $_REQUEST['vote'];
+
+//Retrieve content of text file
+$filename = "poll_result.txt";
+$content = file($filename);
+
+//Putting results in array
+$array = explode("||", $content[0]);
+$LotR = $array[0];
+$HP = $array[1];
+$GoT = $array[2];
+$WoT = $array[3];
+
+if ($vote == 0) {
+$LotR = $LotR + 1;
+}
+if ($vote == 1) {
+$HP = $HP + 1;
+}
+if ($vote == 2) {
+$GoT = $GoT + 1;
+}
+if ($vote == 3) {
+$WoT = $WoT + 1;
+}
+
+
+//Record votes in text file
+$insertvote = $LotR."||".$HP."||".$GoT."||".$WoT.
+$fp = fopen($filename,"w");
+fputs($fp,$insertvote);
+fclose($fp);
+?>
+
+<h2>Result:</h2>
+<table>
+<tr>
+<td>Lord of the Rings:</td>
+<td>
+<?php echo(100*round($LotR/($LotR+$HP+$GoT+$WoT),2)); ?>%
+</td>
+</tr>
+<tr>
+<td>Harry Potter:</td>
+<td>
+<?php echo(100*round($HP/($LotR+$HP+$GoT+$WoT),2)); ?>%
+</td>
+</tr>
+<tr>
+<td>Game of Thones:</td>
+<td>
+<?php echo(100*round($GoT/($LotR+$HP+$GoT+$WoT),2)); ?>%
+</td>
+</tr>
+<tr>
+<td>Wheel of Time:</td>
+<td>
+<?php echo(100*round($WoT/($LotR+$HP+$GoT+$WoT),2)); ?>%
+</td>
+</tr>
+</table>
+
+
+</body>
+</html>
+
+ 
+
+
+
